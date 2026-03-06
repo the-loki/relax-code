@@ -1,4 +1,4 @@
-﻿name: Build Artifacts
+name: Build Artifacts
 
 on:
   push:
@@ -17,5 +17,17 @@ jobs:
           - windows-latest
           - macos-latest
     steps:
-      - name: Placeholder
-        run: echo Workflow skeleton ready
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache Rust dependencies
+        uses: Swatinem/rust-cache@v2
+
+      - name: Run test suite
+        run: cargo test --quiet
+
+      - name: Build release binary
+        run: cargo build --release -p relax-cli
