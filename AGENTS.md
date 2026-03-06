@@ -48,6 +48,24 @@
   - 当仓库下存在对应技能文件（例如 `skills/example/SKILL.md`）时，可运行：`cargo run -p relax-cli -- chat --workspace . --skill example`
   - 当 `.relax/sessions/demo.json` 已存在时，可运行：`cargo run -p relax-cli -- resume --session demo --workspace .`
 
+## CI 构建制品
+
+- 仓库已存在 artifact workflow：`.github/workflows/build-artifacts.yml`
+- 自动触发范围仅限：`push` 到 `main`
+- 额外保留 `workflow_dispatch` 仅用于手动补跑，不改变“只对 `main` 自动生效”的主规则
+- 该 workflow 不属于 Release 流程：
+  - 不创建 GitHub Release
+  - 不依赖 tag 触发
+  - 不上传外部制品仓库
+- 当前 Actions artifact 名称：
+  - `relax-ubuntu-latest`
+  - `relax-windows-latest`
+  - `relax-macos-latest`
+- 下载方式：
+  - 打开 GitHub 仓库的 `Actions`
+  - 进入 `Build Artifacts` workflow 的某次运行
+  - 在页面底部 `Artifacts` 区域下载对应平台产物
+
 ## 推荐目录
 
 - `crates/relax-cli/`：CLI 入口、参数解析、交互输出。

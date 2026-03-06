@@ -144,6 +144,26 @@ artifact 保留时间建议为：
 
 这样既便于下载和排查，也不会让存储长期堆积。
 
+### 5.8 当前落地状态
+
+当前 workflow 已落地为：
+
+- 文件路径：`.github/workflows/build-artifacts.yml`
+- 触发条件：
+  - `push` 到 `main`
+  - `workflow_dispatch`
+- 当前 artifact 名称：
+  - `relax-ubuntu-latest`
+  - `relax-windows-latest`
+  - `relax-macos-latest`
+
+当前行为说明：
+
+- 每个平台先执行 `cargo test --quiet`
+- 再执行 `cargo build --release -p relax-cli`
+- 将平台对应二进制压缩为 zip 后上传到 Actions artifact
+- 整个流程不涉及 Release 语义
+
 ## 6. 实现边界
 
 ### 6.1 当前阶段会做
@@ -172,6 +192,12 @@ artifact 保留时间建议为：
   - 三个平台 job 正常运行
   - artifact 可下载
   - artifact 名称符合约定
+
+下载说明：
+
+- 进入 GitHub 仓库的 `Actions`
+- 打开 `Build Artifacts` workflow 的某次运行记录
+- 在运行详情页底部的 `Artifacts` 区域下载对应平台产物
 
 ## 8. 对新会话的意义
 
