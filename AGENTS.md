@@ -65,6 +65,15 @@
   - 打开 GitHub 仓库的 `Actions`
   - 进入 `Build Artifacts` workflow 的某次运行
   - 在页面底部 `Artifacts` 区域下载对应平台产物
+- 手动补跑方式：
+  - 打开 GitHub 仓库的 `Actions`
+  - 进入 `Build Artifacts` workflow
+  - 点击 `Run workflow` 手动触发
+- 当前未完成项：
+  - GitHub Release
+  - 制品签名与公证
+  - 安装包制作
+  - 交叉编译
 
 ## 推荐目录
 

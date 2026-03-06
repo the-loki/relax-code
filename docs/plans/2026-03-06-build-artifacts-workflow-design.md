@@ -199,9 +199,22 @@ artifact 保留时间建议为：
 - 打开 `Build Artifacts` workflow 的某次运行记录
 - 在运行详情页底部的 `Artifacts` 区域下载对应平台产物
 
+手动触发说明：
+
+- 进入 GitHub 仓库的 `Actions`
+- 打开 `Build Artifacts` workflow
+- 点击 `Run workflow` 手动触发
+
 ## 8. 对新会话的意义
 
 该设计会把“构建产物如何生成、触发范围是什么、为什么不做 Release”固定到仓库文档中，避免后续会话把 artifact workflow 误实现成 release 流程。
+
+## 8.1 当前未完成项
+
+- GitHub Release
+- 制品签名与公证
+- 安装包制作
+- 交叉编译
 
 ## 9. 当前结论
 
