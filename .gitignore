@@ -143,3 +143,6 @@ vite.config.ts.timestamp-*
 
 # relax-code runtime state
 /.relax/
+
+# git worktrees
+/.worktrees/
