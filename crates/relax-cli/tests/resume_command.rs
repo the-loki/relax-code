@@ -1,6 +1,6 @@
 use std::time::{SystemTime, UNIX_EPOCH};
 
-use assert_cmd::Command;
+
 use predicates::str::contains;
 use relax_core::{Message, SessionState};
 use relax_runtime::SessionStore;
@@ -19,7 +19,7 @@ fn resume_command_loads_existing_session() {
     session.push_message(Message::User("hello".to_string()));
     store.save("demo", &session).unwrap();
 
-    let mut command = Command::cargo_bin("relax").unwrap();
+    let mut command = assert_cmd::cargo::cargo_bin_cmd!("relax");
     command
         .arg("resume")
         .arg("--session")
