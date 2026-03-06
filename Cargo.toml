@@ -1,0 +1,3 @@
+[workspace]
+members = ["crates/relax-cli", "crates/relax-runtime", "crates/relax-core", "crates/relax-providers", "crates/relax-tools"]
+resolver = "2"

@@ -1,0 +1,12 @@
+[package]
+name = "relax-core"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+relax-tools = { path = "../relax-tools" }
+serde_json = "1.0"
+tokio = { version = "1.44.1", features = ["macros", "rt"] }
+
+[dev-dependencies]
+serde_json = "1.0"
