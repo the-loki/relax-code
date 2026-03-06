@@ -71,6 +71,8 @@
 
 - `.github/workflows/build-artifacts.yml`
 
+当前采用单文件 workflow 承载该流程，避免在当前阶段拆分多个 workflow 文件。
+
 ### 5.2 触发条件
 
 ```yaml
