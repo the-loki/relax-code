@@ -4,7 +4,7 @@
 
 - 本项目用于构建一个类似 `codex cli` / `claude code` 的本地 AI coding agent。
 - 当前采用的路线是：`可扩展内核 + 最小可用 CLI`。
-- 当前阶段以文档固化与实施计划为主，后续按阶段推进实现。
+- 当前工作树已完成实施计划 `Task 1` 到 `Task 9` 的最小骨架与文档收口。
 
 ## 新会话必读
 
@@ -24,6 +24,29 @@
 - 首版仅做本地 CLI coding agent，不做 Web UI。
 - 首版仅做 OpenAI-compatible provider，不同时做多家 provider。
 - 首版聚焦：会话、工具、计划、技能加载，不提前实现多 agent 团队与复杂审批系统。
+
+## 当前实现状态
+
+- 已落地 crate：`relax-cli`、`relax-core`、`relax-runtime`、`relax-tools`、`relax-providers`。
+- 已完成的最小能力：
+  - `relax chat` 与 `relax resume` CLI 入口
+  - `agent loop` 纯文本结束分支与工具调用往返分支
+  - `shell`、`read_file`、`write_file`、`update_plan` 最小工具实现
+  - OpenAI-compatible 响应解析与最小 HTTP 封装
+  - `.relax/sessions/<session-id>.json` 会话落盘与恢复
+  - 本地 `skills/<name>/SKILL.md` 读取与 `chat --skill <name>` 入口
+- 当前仍属“最小骨架”而非完整产品：
+  - `chat --skill` 已接线到提示构造入口，但尚未形成完整可观察的 provider 执行链路
+  - `update_plan` 目前提供最小文本化计划更新能力，尚未接到持久化计划系统
+  - `resume` 当前只验证会话可读回并恢复到内存，不直接恢复完整 chat loop
+
+## 当前验证方式
+
+- 新会话接手前，先在当前工作树执行：`cargo test`
+- 目前可用的最小命令入口：
+  - `cargo run -p relax-cli -- chat --workspace .`
+  - 当仓库下存在对应技能文件（例如 `skills/example/SKILL.md`）时，可运行：`cargo run -p relax-cli -- chat --workspace . --skill example`
+  - 当 `.relax/sessions/demo.json` 已存在时，可运行：`cargo run -p relax-cli -- resume --session demo --workspace .`
 
 ## 推荐目录
 
@@ -67,3 +90,10 @@
 - 新增实现后，应同步更新相关架构文档与计划状态。
 - 若偏离既定路线，必须先在文档中说明原因与取舍。
 - 除非用户明确要求，否则不要提交 git commit。
+
+## 后续重点
+
+- 优先把 `chat` 命令真正接到 provider 调用与 system prompt 输入链路。
+- 让 `update_plan` 从文本占位实现演进为可持久化的计划状态。
+- 为工具失败、技能入口、会话错误路径补更多行为测试。
+- Stage 5 之后的 subagent、上下文压缩、后台任务、工作树隔离仍属于后续范围。

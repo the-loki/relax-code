@@ -22,6 +22,7 @@
 - 工程形态：Rust workspace
 - 运行形态：本地 CLI
 - 首版 provider：OpenAI-compatible API
+- 首版 provider 范围：只提供单一 OpenAI-compatible 适配器，不同时实现多 provider
 - 架构原则：`agent loop` 固定，能力模块外挂
 
 ## 3. 非目标
@@ -276,3 +277,34 @@ CLI 输入
 ## 13. 当前结论
 
 本项目不是从“大而全平台”起步，而是从“稳定骨架 + 阶段演进”起步。所有后续实现都应围绕这一结论展开，避免超前设计和范围失控。
+
+## 14. 当前落地状态（2026-03-06）
+
+截至当前工作树状态，实施计划中的 `Task 1` 到 `Task 8` 已完成最小落地：
+
+- `relax-cli`
+  - 已提供 `chat` 与 `resume` 子命令
+  - `chat --skill <name>` 已接入本地技能加载入口
+- `relax-core`
+  - 已提供最小 `agent loop`
+  - 已支持两条基础分支：纯文本结束、工具调用往返
+- `relax-runtime`
+  - 已提供 `RuntimePaths`、`Config`、`SessionStore`、`SkillLoader`
+  - 已支持 `.relax/sessions/<session-id>.json` 会话读写
+- `relax-tools`
+  - 已提供 `Tool` trait、`ToolRegistry`
+  - 已落地 `shell`、`read_file`、`write_file`、`update_plan` 最小工具
+- `relax-providers`
+  - 已提供单一 OpenAI-compatible provider 抽象、响应解析器和最小 HTTP 封装
+
+当前也有几项明确的“已接线但未完全闭环”能力：
+
+- `chat --skill` 目前能读取技能并构造 system prompt，但尚未接到真实 provider 执行链路
+- `update_plan` 目前只提供最小文本化计划更新能力，尚未接到持久化计划系统
+- `resume` 目前只验证会话能够被读回并恢复到内存，不直接恢复完整 chat 会话执行
+
+下一阶段最值得优先推进的方向是：
+
+1. 让 `chat` 命令真正把 prompt、skill、provider 与 `agent loop` 串起来
+2. 补充工具错误、会话错误和技能 CLI 入口的行为测试
+3. 让计划能力从“文本占位”收敛到真实状态更新接口
